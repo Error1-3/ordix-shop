@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
 
-// CSP trade-off: Next.js inline bootstrap scripts + GTM require 'unsafe-inline'
-// unless a per-request nonce is used (which makes every page dynamic and disables ISR).
-// See docs/SECURITY.md for how to move to a nonce-based CSP if you prefer that.
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' ${isProd ? "" : "'unsafe-eval'"} https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net`,
@@ -55,14 +52,6 @@ const nextConfig = {
       { source: "/admin/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
       { source: "/account/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
     ];
-  },
-  eslint: {
-    // Дозволяє успішно завершити збірку, навіть якщо є помилки лінтера
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    // Дозволяє успішно завершити збірку, навіть якщо є помилки типів
-    ignoreBuildErrors: true,
   },
 };
 
