@@ -12,7 +12,8 @@ export default async function AccountOrder({ params }: { params: Promise<{ id: s
   const order = await getOrderByIdForUser((await params).id, user.id); // scoped by owner => no IDOR
   if (!order) notFound();
   const unpaid = order.paymentStatus !== "PAID" && order.paymentStatus !== "PARTIALLY_PAID";
-  const canPay = order.status === "PAYMENT_PENDING" && unpaid && order.payments.length > 0;
+  // @ts-ignore
+  const canPay = order.status === "PAYMENT_PENDING" && unpaid && order.payments?.length > 0;
   const canCancel = (order.status === "PENDING" || order.status === "PAYMENT_PENDING") && unpaid;
   const first = order.items[0];
   return (
