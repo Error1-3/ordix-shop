@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src/*"],
+      "server-only": ["./tests/stubs/server-only.ts"],
+      "next/cache": ["./tests/stubs/next-cache.ts"],
+      "next/headers": ["./tests/stubs/next-headers.ts"],
+      "next/server": ["./tests/stubs/next-server.ts"]
+    }
+  },
+  "include": ["tests/**/*.ts", "src/**/*.ts"]
+}

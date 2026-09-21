@@ -1,0 +1,56 @@
+# Local / single-server stack:  docker compose up --build
+# Required: copy .env.example -> .env and fill AUTH_SECRET (+ DATA_ENCRYPTION_KEY). See docs/SETUP.md.
+name: idevice-store
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: idevice
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-idevice}
+      POSTGRES_DB: idevice
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U idevice -d idevice"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "127.0.0.1:5432:5432" # bound to localhost only
+
+  # One-off job: applies migrations (or `db push` if no migrations are committed yet) and CHECK constraints.
+  migrate:
+    build: { context: ., target: builder }
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://idevice:${POSTGRES_PASSWORD:-idevice}@db:5432/idevice?schema=public
+    depends_on:
+      db: { condition: service_healthy }
+    command: >
+      sh -c "if [ -d prisma/migrations ]; then npx prisma migrate deploy; else npx prisma db push --skip-generate; fi
+      && npm run db:constraints && npm run db:seed -- --minimal"
+    restart: "no"
+
+  app:
+    build: { context: ., args: { NEXT_PUBLIC_SITE_URL: "${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}" } }
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://idevice:${POSTGRES_PASSWORD:-idevice}@db:5432/idevice?schema=public
+      NODE_ENV: production
+    depends_on:
+      db: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 40s
+      retries: 3
+
+volumes:
+  pgdata:

@@ -1,0 +1,12 @@
+{
+  "common": { "loading": "Loading…", "save": "Save", "cancel": "Cancel", "search": "Search", "back": "Back", "close": "Close" },
+  "nav": { "catalog": "Catalog", "account": "Account", "wishlist": "Wishlist", "cart": "Cart", "login": "Sign in", "register": "Register", "logout": "Sign out" },
+  "search": { "placeholder": "Which iPhone are you looking for?" },
+  "home": { "heroCta": "Browse iPhones", "heroCtaUsed": "Used with warranty", "popularIphone": "Popular iPhones", "newIphone": "New iPhones", "usedIphone": "Used iPhones" },
+  "product": { "addToCart": "Add to cart", "buyNow": "Buy now", "inStock": "In stock", "outOfStock": "Out of stock" },
+  "cart": { "title": "Cart", "empty": "Your cart is empty", "checkout": "Checkout", "total": "Total" },
+  "checkout": { "title": "Checkout", "placeOrder": "Place order" },
+  "condition": { "NEW": "New", "LIKE_NEW": "Like new", "EXCELLENT": "Excellent", "GOOD": "Good", "FAIR": "Fair" },
+  "paymentMethod": { "LIQPAY_CARD": "Card online (LiqPay)", "NP_COD": "Cash on delivery (Nova Poshta)", "PAY_ON_RECEIVE": "Pay on receipt" },
+  "delivery": { "NP_WAREHOUSE": "Nova Poshta — branch", "NP_LOCKER": "Nova Poshta — parcel locker", "NP_COURIER": "Nova Poshta — courier" }
+}

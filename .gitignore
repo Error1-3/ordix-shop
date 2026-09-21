@@ -1,0 +1,32 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# build
+.next
+out
+dist
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets — NEVER commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# testing
+coverage
+playwright-report
+test-results
+
+# misc
+.DS_Store
+*.log
+.vercel
+.idea
+.vscode
+uploads/
