@@ -35,7 +35,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
